@@ -4,15 +4,15 @@
     "manifest_version": 2,
     "description": "View and modify web request traffic.",
     "browser_action": {
-        "default_icon": "images/icon.png",
-        "default_popup": "pages/popup.html"
+        "default_icon": "images/icon.png"
     },
     "background": {
-        "scripts": ["scripts/libs/jquery/jquery-1.8.1.min.js", "scripts/services/networkservice.js"]
+        "scripts": ["scripts/libs/underscore/underscore.js","scripts/background.js"]
     },
     "permissions": [
         "webRequest",
         "webRequestBlocking",
+        "tabs",
         "<all_urls>"
     ]
 }
