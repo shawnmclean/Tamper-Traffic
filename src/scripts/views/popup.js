@@ -1,6 +1,6 @@
 $(function(){
-    //set tabid to -1 for non selected
-    var tabId = -1;
+    //get the caller tabId
+    var tabId = parseInt(window.location.search.substring(1));
 
     //watch for tab changes
     chrome.tabs.onActivated.addListener(function(activeInfo) {
