@@ -1,29 +1,32 @@
 $(function(){
     //get the caller tabId
     var tabId = parseInt(window.location.search.substring(1));
-
-    //watch for tab changes
-    chrome.tabs.onActivated.addListener(function(activeInfo) {
-        tabId = activeInfo.tabId;
-    });
+    var tamperStarted = false;
 
     chrome.webRequest.onBeforeSendHeaders.addListener(
         function(details) {
-            //use only requests from the current tabId
-            if(details.tabId == tabId)
-            {
-                $('#logs').append("<li>request made on tab: "+details.tabId + "</li>");
-            }
 
-            for (var i = 0; i < details.requestHeaders.length; ++i) {
-                if (details.requestHeaders[i].name === 'User-Agent') {
-                    details.requestHeaders.splice(i, 1);
-                    break;
+            //if tampering is started, ask to tamper request.
+            if(tamperStarted == true)
+            {
+                if(confirm("Tamper url: "+ details.url))
+                {
+                    var r = window.showModalDialog('tamper.html',
+                        details, "dialogwidth: 450; dialogheight: 300; resizable: yes");
                 }
             }
-            return {requestHeaders: details.requestHeaders};
+
+            $('#logs').append("<li>request made on tab: "+details.requestId + "</li>");
+
+
+            return; //{requestHeaders: details.requestHeaders};
         },
-        {urls: ["<all_urls>"]},
+        {urls: ["<all_urls>"], tabId : tabId},
         ["blocking", "requestHeaders"]
     );
+
+    //UI interactions
+    $('#btnStartTamper').click(function(){
+        tamperStarted = true;
+    });
 });
