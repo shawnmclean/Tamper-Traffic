@@ -5,6 +5,7 @@ $(function(){
 
     chrome.webRequest.onBeforeSendHeaders.addListener(
         function(details) {
+            $('#logs').append("<li>request made on tab: "+details.requestId + "</li>");
 
             //if tampering is started, ask to tamper request.
             if(tamperStarted == true)
@@ -16,9 +17,6 @@ $(function(){
                 }
             }
 
-            $('#logs').append("<li>request made on tab: "+details.requestId + "</li>");
-
-
             return; //{requestHeaders: details.requestHeaders};
         },
         {urls: ["<all_urls>"], tabId : tabId},
@@ -26,7 +24,15 @@ $(function(){
     );
 
     //UI interactions
-    $('#btnStartTamper').click(function(){
-        tamperStarted = true;
+    $('#btnTamperToggle').click(function(){
+        tamperStarted = !tamperStarted;
+        if(tamperStarted)
+        {
+            $(this).html('Stop');
+        }
+        else
+        {
+            $(this).html('Start');
+        }
     });
 });

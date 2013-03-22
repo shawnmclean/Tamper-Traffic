@@ -9,6 +9,10 @@
     "background": {
         "scripts": ["scripts/libs/underscore/underscore.js","scripts/background.js"]
     },
+    "sandbox": {
+        "pages": ["pages/sandbox.html"]
+    },
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
     "permissions": [
         "webRequest",
         "webRequestBlocking",
